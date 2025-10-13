@@ -13,14 +13,14 @@ from sqlalchemy.orm import relationship
 Base = declarative_base()
 
 
-class Company(Base):
+class Company(Base):  # type: ignore
     __tablename__ = 'Company'
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
 
 
-class Employee(Base):
+class Employee(Base):  # type: ignore
     __tablename__ = 'Employee'
 
     id = Column(Integer, primary_key=True)

@@ -70,3 +70,9 @@ environment.yml
 
 # mypy
 .mypy_cache/
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+
+# Generated version file
+src/serialchemy/_version.py
