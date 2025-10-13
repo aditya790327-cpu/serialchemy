@@ -99,7 +99,7 @@ def test_custom_serializer(model, serializer_strategy, db_session, data_regressi
         if serializer_strategy == "NestedModelFields"
         else EmployeeSerializerNestedAttrsFields
     )
-    emp = db_session.query(model.Employee).get(1)
+    emp = db_session.get(model.Employee, 1)
     serializer = serializer_class(model.Employee)
     serialized = serializer.dump(emp)
     data_regression.check(
@@ -127,7 +127,7 @@ def test_deserialize_with_custom_serializer(model, db_session, data_regression):
 
 
 def test_deserialize_existing_model(model, db_session):
-    original = db_session.query(model.Employee).get(1)
+    original = db_session.get(model.Employee, 1)
     assert original.firstname == "Jim"
     assert original.address.zip is None
 
@@ -156,7 +156,7 @@ def test_deserialize_existing_model(model, db_session):
 
 def test_empty_nested(model, db_session):
     serializer = getEmployeeSerializerNestedModelFields(model)(model.Employee)
-    serialized = serializer.dump(db_session.query(model.Employee).get(3))
+    serialized = serializer.dump(db_session.get(model.Employee, 3))
     assert serialized["company"] is None
     model = serializer.load(serialized, session=db_session)
     assert model.company is None

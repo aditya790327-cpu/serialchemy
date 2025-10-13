@@ -1,4 +1,5 @@
 import enum
+
 from sqlalchemy.orm import class_mapper
 
 from serialchemy import ModelSerializer

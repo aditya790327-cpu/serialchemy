@@ -1,17 +1,27 @@
 from datetime import datetime
 from enum import Enum
-from sqlalchemy import Column, Date, DateTime, Float, ForeignKey, Integer, String, Table
+
+from sqlalchemy import Column
+from sqlalchemy import Date
+from sqlalchemy import DateTime
+from sqlalchemy import Float
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+from sqlalchemy import String
+from sqlalchemy import Table
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import object_session, relationship
+from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import object_session
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import sqltypes
 from sqlalchemy_utils import ChoiceType
 
 from serialchemy.enum_field import EnumKeyField
 from serialchemy.field import Field
 from serialchemy.model_serializer import ModelSerializer
-from serialchemy.nested_fields import NestedModelField, NestedModelListField
+from serialchemy.nested_fields import NestedModelField
+from serialchemy.nested_fields import NestedModelListField
 
 Base = declarative_base()
 
@@ -75,10 +85,12 @@ class ContractType(Enum):
     CONTRACTOR = 'Contractor'
     OTHER = 'Other'
 
+
 class MaritalStatus(Enum):
     SINGLE = 'Single'
     MARRIED = 'Married'
     DIVORCED = 'Divorced'
+
 
 class Employee(Base):
 
@@ -100,7 +112,6 @@ class Employee(Base):
     _salary = Column(Float)
     contract_type = Column(ChoiceType(ContractType))
     marital_status = Column(sqltypes.Enum(MaritalStatus))
-
 
     password = Column(String)
     created_at = Column(DateTime, default=datetime(2000, 1, 2))
@@ -128,7 +139,7 @@ class Engineer(Employee):
 
     __tablename__ = 'Engineer'
 
-    id = Column('eng_id',Integer, ForeignKey('Employee.id'), primary_key=True)
+    id = Column('eng_id', Integer, ForeignKey('Employee.id'), primary_key=True)
     engineer_name = Column(String(30))
 
     __mapper_args__ = {'polymorphic_identity': 'Engineer', 'polymorphic_on': Employee.role}

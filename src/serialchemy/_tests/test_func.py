@@ -14,14 +14,14 @@ def seed_data(model, db_session):
         password='somepass',
         role='Employee',
         company=company,
-        marital_status=model.MaritalStatus.DIVORCED
+        marital_status=model.MaritalStatus.DIVORCED,
     )
     db_session.add(employee)
     db_session.commit()
 
 
 def test_dump(model, db_session, data_regression):
-    employee = db_session.query(model.Employee).get(2)
+    employee = db_session.get(model.Employee, 2)
     serial = func.dump(employee, nest_foreign_keys=True)
     data_regression.check(serial, basename='test_dump')
 

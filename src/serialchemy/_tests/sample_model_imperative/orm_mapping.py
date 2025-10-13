@@ -18,11 +18,11 @@ from serialchemy._tests.sample_model_imperative.model import Company
 from serialchemy._tests.sample_model_imperative.model import Contact
 from serialchemy._tests.sample_model_imperative.model import ContactType
 from serialchemy._tests.sample_model_imperative.model import ContractType
-from serialchemy._tests.sample_model_imperative.model import MaritalStatus
 from serialchemy._tests.sample_model_imperative.model import Department
 from serialchemy._tests.sample_model_imperative.model import Employee
 from serialchemy._tests.sample_model_imperative.model import Engineer
 from serialchemy._tests.sample_model_imperative.model import Manager
+from serialchemy._tests.sample_model_imperative.model import MaritalStatus
 from serialchemy._tests.sample_model_imperative.model import SpecialistEngineer
 
 mapper_registry = registry()

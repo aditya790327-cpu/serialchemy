@@ -1,8 +1,12 @@
-from datetime import datetime, timedelta, timezone, date
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
 
 import pytest
 
-from serialchemy.datetime_serializer import DateTimeSerializer, DateSerializer
+from serialchemy.datetime_serializer import DateSerializer
+from serialchemy.datetime_serializer import DateTimeSerializer
 
 
 @pytest.mark.parametrize(
