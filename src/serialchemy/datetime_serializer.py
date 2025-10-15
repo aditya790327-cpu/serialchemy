@@ -1,8 +1,12 @@
 import re
 import warnings
-from datetime import datetime, timedelta, timezone, date
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
 
-from .serializer import Serializer, ColumnSerializer
+from .serializer import ColumnSerializer
+from .serializer import Serializer
 
 DATETIME_REGEX = (
     r"(?P<Y>\d{2,4})-(?P<m>\d{2})-(?P<d>\d{2})"

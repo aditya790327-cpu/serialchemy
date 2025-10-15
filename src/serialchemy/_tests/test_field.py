@@ -1,4 +1,5 @@
-from serialchemy import Field, Serializer
+from serialchemy import Field
+from serialchemy import Serializer
 
 
 class CustomSerializer(Serializer):

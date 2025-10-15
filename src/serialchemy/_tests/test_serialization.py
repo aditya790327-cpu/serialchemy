@@ -1,3 +1,5 @@
+from sqlalchemy.orm import Session
+
 from serialchemy.enum_field import EnumKeyField
 from serialchemy.field import Field
 from serialchemy.func import dump
@@ -85,7 +87,7 @@ def getEmployeeSerializer(model):
 def test_model_dump(model, db_session, data_regression):
     seed_data(db_session, model)
 
-    emp = db_session.query(model.Employee).get(1)
+    emp = db_session.get(model.Employee, 1)
     serializer = ModelSerializer(model.Employee)
     serialized = serializer.dump(emp)
     data_regression.check(serialized, basename='test_model_dump')
@@ -94,7 +96,7 @@ def test_model_dump(model, db_session, data_regression):
 def test_enum_key_field_dump(model, db_session, data_regression):
     seed_data(db_session, model)
 
-    emp = db_session.query(model.Employee).get(1)
+    emp = db_session.get(model.Employee, 1)
     serializer = getEmployeeSerializer(model)(model.Employee)
     serialized = serializer.dump(emp)
     data_regression.check(serialized, basename='test_enum_key_field_dump')
@@ -140,7 +142,7 @@ def test_one2one_pk_field(model, db_session, data_regression):
         company = PrimaryKeyField(model.Company)
 
     serializer = EmployeeSerializerPrimaryKeyFields(model.Employee)
-    employee = db_session.query(model.Employee).get(2)
+    employee = db_session.get(model.Employee, 2)
     serialized = serializer.dump(employee)
     data_regression.check(serialized, basename='test_one2one_pk_field')
 
@@ -152,14 +154,14 @@ def test_one2many_pk_field(model, db_session, data_regression):
         employees = PrimaryKeyField(model.Employee)
 
     serializer = CompanySerializer(model.Company)
-    company = db_session.query(model.Company).get(5)
+    company = db_session.get(model.Company, 5)
     serialized = serializer.dump(company)
     data_regression.check(serialized)
 
     serialized['employees'] = [2, 3]
     company = serializer.load(serialized, existing_model=company, session=db_session)
-    assert company.employees[0] == db_session.query(model.Employee).get(2)
-    assert company.employees[1] == db_session.query(model.Employee).get(3)
+    assert company.employees[0] == db_session.get(model.Employee, 2)
+    assert company.employees[1] == db_session.get(model.Employee, 3)
 
 
 def test_property_serialization(model, db_session):
@@ -169,7 +171,7 @@ def test_property_serialization(model, db_session):
         full_name = Field(dump_only=True)
 
     serializer = EmployeeSerializerHybridProperty(model.Employee)
-    serialized = serializer.dump(db_session.query(model.Employee).get(2))
+    serialized = serializer.dump(db_session.get(model.Employee, 2))
     assert serialized['full_name'] is not None
 
 
@@ -177,7 +179,7 @@ def test_protected_field_default_creation(model, db_session):
     seed_data(db_session, model)
 
     serializer = ModelSerializer(model.Employee)
-    employee = db_session.query(model.Employee).get(1)
+    employee = db_session.get(model.Employee, 1)
     assert employee._salary == 400
     serialized = serializer.dump(employee)
     assert serialized.get('role') == 'Manager'
@@ -193,7 +195,7 @@ def test_inherited_model_serialization(model, db_session):
 
     serializer = PolymorphicModelSerializer(model.Employee)
 
-    manager = db_session.query(model.Employee).get(1)
+    manager = db_session.get(model.Employee, 1)
     assert isinstance(manager, model.Manager)
 
     serialized = serializer.dump(manager)
@@ -201,7 +203,7 @@ def test_inherited_model_serialization(model, db_session):
     entity = serializer.load(serialized, session=db_session)
     assert hasattr(entity, 'manager_name')
 
-    engineer = db_session.query(model.Employee).get(2)
+    engineer = db_session.get(model.Employee, 2)
     assert isinstance(engineer, model.Engineer)
 
     serialized = serializer.dump(engineer)
@@ -209,7 +211,7 @@ def test_inherited_model_serialization(model, db_session):
     entity = serializer.load(serialized, session=db_session)
     assert hasattr(entity, 'engineer_name')
 
-    engineer = db_session.query(model.Employee).get(4)
+    engineer = db_session.get(model.Employee, 4)
     assert isinstance(engineer, model.SpecialistEngineer)
 
     serialized = serializer.dump(engineer)
@@ -218,18 +220,18 @@ def test_inherited_model_serialization(model, db_session):
     assert hasattr(entity, 'specialization')
 
 
-def test_nested_inherited_model_serialization(model, db_session):
+def test_nested_inherited_model_serialization(model, db_session: Session) -> None:
     seed_data(db_session, model)
 
     serializer = PolymorphicModelSerializer(model.Engineer)
 
-    engineer = db_session.query(model.Employee).get(2)
+    engineer = db_session.get(model.Employee, 2)
     assert isinstance(engineer, model.Engineer)
     serialized = serializer.dump(engineer)
     assert serialized.get('role') == 'Engineer'
     assert 'specialization' not in serialized.keys()
 
-    specialist_engineer = db_session.query(model.Employee).get(4)
+    specialist_engineer = db_session.get(model.Employee, 4)
     assert isinstance(specialist_engineer, model.SpecialistEngineer)
     serialized = serializer.dump(specialist_engineer)
     assert serialized.get('role') == 'Specialist Engineer'
@@ -278,10 +280,10 @@ def test_creation_only_flag(model, db_session):
     assert employee.firstname == 'Other'
 
 
-def test_dump_choice_type(model, db_session, data_regression):
+def test_dump_choice_type(model, db_session: Session, data_regression):
     seed_data(db_session, model)
 
-    tychus = db_session.query(model.Employee).get(3)
+    tychus = db_session.get(model.Employee, 3)
     serializer = ModelSerializer(model.Employee)
     dump = serializer.dump(tychus)
     data_regression.check(dump, basename='test_dump_choice_type')

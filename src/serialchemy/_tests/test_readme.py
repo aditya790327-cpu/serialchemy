@@ -1,9 +1,14 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, select
-from sqlalchemy.ext.declarative import declarative_base
-
-from sqlalchemy.orm import column_property, relationship
+from sqlalchemy import Column
+from sqlalchemy import DateTime
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+from sqlalchemy import select
+from sqlalchemy import String
+from sqlalchemy.orm import column_property
+from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -23,7 +28,9 @@ class Employee(Base):
     admission = Column(DateTime, default=datetime(2000, 1, 1))
     company_id = Column(ForeignKey('Company.id'))
     company = relationship(Company)
-    company_name = column_property(select([Company.name]).where(Company.id == company_id))
+    company_name = column_property(
+        select(Company.name).where(Company.id == company_id).scalar_subquery()
+    )
     password = Column(String)
 
 

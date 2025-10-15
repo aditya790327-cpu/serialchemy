@@ -75,7 +75,7 @@ class NestedModelField(SessionBasedField):
             if session is None:
                 raise RuntimeError("Session object is required to deserialize a nested object")
             with session.no_autoflush:
-                existing_model = session.query(class_mapper).get(pk)
+                existing_model = session.get(class_mapper, pk)
             return self.serializer.load(serialized, existing_model, session=session)
         else:
             # No primary key, just create a new model entity

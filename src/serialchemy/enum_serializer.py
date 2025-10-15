@@ -1,8 +1,8 @@
+from enum import Enum
 from typing import Type
 
-from enum import Enum
-
-from .serializer import ColumnSerializer, Serializer
+from .serializer import ColumnSerializer
+from .serializer import Serializer
 
 
 class EnumSerializer(ColumnSerializer):
@@ -14,6 +14,7 @@ class EnumSerializer(ColumnSerializer):
     def load(self, serialized, session=None):
         enum = getattr(self.column.type, 'enum_class')
         return enum(serialized)
+
 
 class EnumKeySerializer(Serializer):
     def __init__(self, enum_class: Type[Enum]) -> None:
