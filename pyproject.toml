@@ -11,6 +11,7 @@ where = ["src"]
 
 [tool.setuptools_scm]
 version_file = "src/serialchemy/_version.py"
+local_scheme = "no-local-version"
 
 [tool.setuptools_scm.scm.git]
 pre_parse = "fail_on_missing_submodules"
@@ -37,7 +38,7 @@ classifiers = [
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
-dependencies = ["sqlalchemy>=1.4,<2.0"]
+dependencies = ["sqlalchemy>=1.4,<3.0"]
 
 [project.optional-dependencies]
 docs=["sphinx >= 1.4", "sphinx_rtd_theme", "sphinx-autodoc-typehints", "typing_extensions"]
