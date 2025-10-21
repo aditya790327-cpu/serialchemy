@@ -1,5 +1,10 @@
 History
 =======
+1.0.3 (2025-10-21)
+------------------
+* Add support for SQLAlchemy 2.0
+* Drop support for Python 3.8 and 3.9 as they reach end of life.
+
 1.0.2 (2025-07-08)
 ------------------
 * Adjust PolymorphicModelSerializer to accept a pure Enum as polymorphic identity
