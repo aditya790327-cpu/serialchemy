@@ -18,29 +18,13 @@ Ready to contribute? Here's how to set up `serialchemy` for local development.
 
     $ git clone git@github.com:your_github_username_here/serialchemy.git
 
-#. Create a virtual environment and activate it::
+#. Install pixi
 
-    $ python -m virtualenv .env
+    See https://pixi.sh/latest/installation/
 
-    $ .env\Scripts\activate  # For Windows
-    $ source .env/bin/activate  # For Linux
+#. Install pre-commit
 
-#. Install the development dependencies for setting up your fork for local development::
-
-    $ cd serialchemy/
-    $ pip install -e .[testing,docs]
-
-   .. note::
-
-       If you use ``conda``, you can install ``virtualenv`` in the root environment::
-
-           $ conda install -n root virtualenv
-
-       Don't worry as this is safe to do.
-
-#. Install pre-commit::
-
-    $ pre-commit install
+    $ pixi run setup
 
 #. Create a branch for local development::
 
@@ -50,13 +34,7 @@ Ready to contribute? Here's how to set up `serialchemy` for local development.
 
 #. When you're done making changes, run the tests::
 
-    $ pytest
-
-#. If you want to check the modification made on the documentation, you can generate the docs locally::
-
-    $ tox -e docs
-
-   The documentation files will be generated in ``docs/_build``.
+    $ pixi run test
 
 #. Commit your changes and push your branch to GitHub::
 

@@ -26,7 +26,7 @@ from serialchemy.nested_fields import NestedModelListField
 Base = declarative_base()
 
 
-class Company(Base):
+class Company(Base):  # type: ignore
 
     __tablename__ = 'Company'
 
@@ -40,7 +40,7 @@ class Company(Base):
     master_manager = relationship('Manager', foreign_keys=[master_manager_id])
 
 
-class Department(Base):
+class Department(Base):  # type: ignore
 
     __tablename__ = 'Department'
 
@@ -48,7 +48,7 @@ class Department(Base):
     name = Column(String)
 
 
-class Address(Base):
+class Address(Base):  # type: ignore
 
     __tablename__ = 'Address'
 
@@ -60,7 +60,7 @@ class Address(Base):
     state = Column(String)
 
 
-class ContactType(Base):
+class ContactType(Base):  # type: ignore
 
     __tablename__ = 'ContactType'
 
@@ -68,7 +68,7 @@ class ContactType(Base):
     label = Column(String(15))
 
 
-class Contact(Base):
+class Contact(Base):  # type: ignore
 
     __tablename__ = 'Contact'
 
@@ -92,7 +92,7 @@ class MaritalStatus(Enum):
     DIVORCED = 'Divorced'
 
 
-class Employee(Base):
+class Employee(Base):  # type: ignore
 
     __tablename__ = 'Employee'
 
